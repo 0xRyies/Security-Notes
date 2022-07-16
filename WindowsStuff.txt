@@ -1,0 +1,49 @@
+Some Commands : 
+	* windows command = linux command *
+	- findstr = grep  
+	- tasklist, taskkill = ps, kill
+	- color => change color 
+	- /? with any commmand for help screen *you can also do the normal -? *
+	- ver = uname -a 
+	- systeminfo
+	- fc = diff 
+	- del = rm 
+	- move = mv 
+	- rd = rm -r 
+	- expand = gunzip, tar,...etc
+	- type = cat
+	- tree => checks the directories within a directory
+	- net users USERNAME
+
+Random Stuff : 
+- Active Directory is the directory service database
+- LDAP is how you can speak with AD 
+- In LDAP => | DC = Domain Component , OU = Organization Unit , CN = Common Name | 
+- Kerberos is an authentication|security protocol
+- In Kerberos => request go to Key Distribution Center (KDC) that consists of Authentication Service (AS) and Ticket Granting Service (TGS) 
+
+
+
+Kerberos Attacks :
+- you can try to brute force the username/pass -----> kerbrute
+- password spraying attack 
+- you can capture the AS_REP if the user is without Kerberos pre-authentication required attribute  (ASREPRoast) ----> GetNPUsers.py
+- get services with SPNs and request a TGS ticket then extract it from memory (Kerbroasting) * requires an account * ----> GetUserSPNs.py 
+- passing the ntlm hash of a user to get the kerberos ticket (PTK)  ----> getTGT.py , export KRB5CCNAME=<TGT_ccache_file>, psexec.py
+- stealing kerberos tickets from where its stored (PTT)
+- Silver ticket * If Privilege Attribute Certificate (PAC) is disabled * ----> ticketer.py
+- Golden ticket ----> ticketer.py --> with krbtgt account
+
+Active Directory Attacks : 
+- Kerberos Attacks
+- Extracting plain text passwords from group policy preferences 
+- AdminSDHolder attack * presistence *
+- Ntds.dit password extraction 
+- If a user has Replicating directory changes attribute enabled then he can harvest any account NTLM hash (DCSync Attack) 
+- to priv esc from one DC to another, or for presistence (DCShadow Attack)
+
+
+
+
+
+

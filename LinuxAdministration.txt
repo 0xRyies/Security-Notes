@@ -1,0 +1,16 @@
+linux : 
+- bashrc file 
+- mount command 
+- file systems
+- disk space, fdisk command, partitions, df -h, du /etc/ => for directory size
+- usermod, useradd, userdel
+- /etc/skel ---> default files added to a new created user
+- chmod 777 => all permissions , 1 => executable - 2 => writable - 4 => readable  and there's extra space for the sticky bit 
+- nohup command
+- ps aux , top
+- /proc => processes directory => contains all processes and cpu,memory info
+- lspci -v => to know ur hardware 
+- crontab -e, /etc/crontab.d
+- /etc => contains a lot of config files 
+- daemon => the background process that handles a specific service => httpd (http daemon to handle apache), sshd (ssh daemon to 			handle ssh)..etc
+- NFS must be run while rpcbind is running

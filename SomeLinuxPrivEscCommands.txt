@@ -1,0 +1,9 @@
+- check for running services and weird ports
+- kernel exploits => linuxexploitsuggester.py
+- check for permissions => sudo -l , find / -type f -perm -2000 -o -perm -4000 -ls 2>/dev/null 
+- getcap /usr/bin/python3.8
+- export PATH=/tmp/pwn:$PATH ===> path injection 
+- crontab -l -u USER
+- find /var /etc /bin /sbin /home /usr/local/bin /usr/local/sbin /usr/bin /usr/games /usr/sbin /root /tmp -type f \( -name "*backup*" -o -name "*\.bak" -o -name "*\.bck" -o -name "*\.bk" \) 2>/dev/nulll
+- grep -Ri 'password' /etc/ 2>/dev/null 
+- find / -user admin -type f 2>/dev/null | grep -Ev "^/sys|^/run|^/proc" 	----->	 files owned by user 

