@@ -16,5 +16,3 @@ Uploading an existing project :
 1- git init ----> to initialize the repo in existing project 
 2- git remote add RemoteRepo TheRepoLink ----> to add the github repo link as "origin"
 3- git push -u RemoteRepo Branch ----> to upload the project to github
-
-- my github token : 70a144bc4f407f359d798257eff702cb0f417287 , 1e9b45c648bb1001b8f92f330377413baa7e0609
