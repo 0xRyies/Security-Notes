@@ -1,0 +1,111 @@
+- CIDR/ASN :
+	- https://bgp.he.net/search?search%5Bsearch%5D=dod&commit=Search
+	- ASNlookup tool ----> https://github.com/yassineaboukir/Asnlookup
+	- to do it manually ----> bgp.sh * Custom script for filtering *
+	- search IPv4 ranges with sslScrape ----> https://github.com/cheetz/sslScrape
+
+- passive subdomain enum : 
+	- https://web.archive.org/cdx/search/cdx?url=*.domain.com/*&output=text&fl=original&collapse=urlkey
+	- subfinder 
+	- assetfinder 
+	- findomain 
+	- amass enum -active 
+	- github ---> https://github.com/techgaun/github-dorks/blob/master/github-dorks.txt / https://github.com/gwen001/github-subdomains https://github.com/obheda12/GitDorker
+	- Certifcate ---> crt.sh 
+	- google dork *or other search engines* ---> site:domain.com -site:wwww.domain.com ----> https://gbhackers.com/latest-google-dorks-list/
+	- altdns
+
+- active subdomain enum : 
+	1- subbrute
+	2- gobuster
+	3- knockpy
+
+
+- monitoring :
+	- https://github.com/yassineaboukir/sublert
+	- amass track -d domain.com
+		
+
+- resloving :
+	- httpx -l list -content-length -status-code -title -mc 200  -silent 
+	- 80,443,2053,2082,2083,2086,2087,8080,8443,8880
+
+- meg tool to get one path in multiple hosts
+
+- subdomain takeover : 
+	- takeover.py 
+
+- generate custom wordlists : 
+	- cat urls.txt | unfurl -u paths | sed 's#/#\n#g' | sort -u | tee -a wordlist.txt
+	- gau example.net | unfurl -u keys | tee -a wordlist.txt 
+
+	- html method : 
+		1- curl https://tools.ietf.org/html/rfc1866 -o rfc.html
+		2- curl https://example.com -o example.html
+		3- cat rfc.html | tok | tr '[:upper:]' '[:lower:]' | sort -u > rfc_words
+		4- cat example.html | tok | tr '[:upper:]' '[:lower:]' | sort -u > example_words
+		5- comm -13 rfc_words example_words | tee -a wordlist.txt
+
+	- JS method : 
+		1- gau example.com | head -n 1000 | fff -s 200 -s 400 --output example
+		2- find example/ -type f -name '*.body' | html-tool attribs src | egrep '*.js' | sort -u 
+
+
+- Try port scanning with nmap or masscan with nuccli --> tokens and CVEs 
+
+- sed 's/.*\/\///' >> output.txt --> to remove https:// from a file 
+
+
+- Js files : 
+	- linkfinder
+	- secretfinder  for i in $(cat path); do python3 SecretFinder.py -i $i -o cli; done
+	- using gau :
+		1- cat gau_output | grep '\.js' | httpx -mc 200 -silent | tee -a gau_js.txt
+		2- cat hosts.txt | subjs | httpx -silent -mc 200 | anew gau_js.txt 	
+	- to get hidden variable names : 
+		- assetfinder example.com | gau | egrep -v '(.css|.png|.jpeg|.jpg|.svg|.gif|.wolf)' | while read url; do vars=$(curl -s $url | grep -Eo "var [a-zA-Z0-9]+" | sed -e 's,'var','"$url"?',g' -e 's/ //g' | grep -v '.js' | sed 's/.*/&=xss/g'); echo -e "\e[1;33m$url\n\e[1;32m$vars"; done
+	- jsubfinder : 
+		- cat resolveddomains.txt | jsubfinder
+		- xargs -P 500 -a pay -I@ sh -c 'nc -w1 -z -v @ 443 2>/dev/null && echo @' | xargs -I@ -P10 sh -c 'gospider -a -s "https://@" -d 2 | grep -Eo "(http|https)://[^/\"].*\.js+" | sed "s#\] \- #\n#g" | anew'
+	- gf : 
+		- cat file.js | for i in $(cat /root/gf_secrets); do [[ ${i} =~ "_secrets"* ]] && gf ${i}; done
+
+
+- Test for CMS and Third Party 
+
+- End Points : 
+	- JS 
+	- github 
+	- CMS end points --> admin panels, login
+	- dorks --> webpaste 
+	/swagger-ui.html
+	/swagger/swagger-ui.html
+	/api/swagger-ui.html
+	/v1.x/swagger-ui.html
+	/swagger/index.html
+
+
+- 403,302 bypass : 
+	- https://github.com/yunemse48/403bypasser/blob/master/bypass_403.sh
+	- byp4xx
+	- bfac 
+	- dirsearch -x 500,403,302 
+
+
+- Paramaters : 
+	- gf-patters * add new params to the pattern file * , gf-secrets
+	- cat target | waybackurls | grep "=" | tee -a file
+	- paramspider  
+	- arjun
+	- parameth 
+
+- DORKS * search engines and github * 
+
+- sensitive info :
+	- curl -s "https://otx.alienvault.com/api/v1/indicators/domain/<TARGET>/url_list?limit=100&page=1" | jq 
+	- curl -s "https://crt.sh/?q=%25.tesla.com&output=json" | jq -r '.[].name_value' | assetfinder -subs-only | sed 's#$#/.git/HEAD#g' | httpx -silent -content-length -status-code 301,302,200 -timeout 3 -retries 0 -ports 80,8080,443 -threads 500 -title | anew
+
+- S3 bucket finder ---> https://github.com/gwen001/s3-buckets-finder
+
+
+
