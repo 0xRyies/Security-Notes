@@ -2,7 +2,7 @@
 	- https://bgp.he.net/search?search%5Bsearch%5D=dod&commit=Search
 	- ASNlookup tool ----> https://github.com/yassineaboukir/Asnlookup
 	- to do it manually ----> bgp.sh * Custom script for filtering *
-	- search IPv4 ranges with sslScrape ----> https://github.com/cheetz/sslScrape
+	- search IPv4 ranges * given with ASNlookup tool * with sslScrape ----> https://github.com/cheetz/sslScrape
 
 - passive subdomain enum : 
 	- https://web.archive.org/cdx/search/cdx?url=*.domain.com/*&output=text&fl=original&collapse=urlkey
@@ -15,6 +15,11 @@
 	- google dork *or other search engines* ---> site:domain.com -site:wwww.domain.com ----> https://gbhackers.com/latest-google-dorks-list/
 	- altdns
 
+- screen-shotting tools : 
+	- Eyewitness ---> https://github.com/FortyNorthSecurity/EyeWitness
+	- Aquatone ---> https://github.com/michenriksen/aquatone
+	- gowitness ---> https://github.com/sensepost/gowitness
+	
 - active subdomain enum : 
 	1- subbrute
 	2- gobuster
