@@ -4,6 +4,10 @@
 	- to do it manually ----> bgp.sh * Custom script for filtering *
 	- search IPv4 ranges * given with ASNlookup tool * with sslScrape ----> https://github.com/cheetz/sslScrape
 
+- SSL Parsers :
+	- cero ---> https://github.com/glebarez/cero  * probably faster *
+	- hakip2host ---> https://github.com/hakluke/hakip2host * might give some more info *
+	
 - passive subdomain enum : 
 	- https://web.archive.org/cdx/search/cdx?url=*.domain.com/*&output=text&fl=original&collapse=urlkey
 	- subfinder 
