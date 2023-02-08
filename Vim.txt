@@ -24,3 +24,4 @@ dt} = delete untill }
 zz = move to center 
 . = redo last command 
 >> = indentation 
+
