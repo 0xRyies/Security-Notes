@@ -11,6 +11,7 @@
 - git branch -d BranchName ----> delete branch 
 - git merge BranchName ----> merge branch into the master branch
 - git log ----> get all commits 
+- use access token as password to avoid errors in cli
 
 Uploading an existing project :
 1- git init ----> to initialize the repo in existing project 

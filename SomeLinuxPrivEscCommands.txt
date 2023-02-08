@@ -8,5 +8,3 @@
 - grep -Ri 'password' ./ 2>/dev/null 
 - find / -user admin -type f 2>/dev/null | grep -Ev "^/sys|^/run|^/proc" 	----->	 files owned by user 
 - https://github.com/stealthcopter/deepce  ===> for docker 
-
-
